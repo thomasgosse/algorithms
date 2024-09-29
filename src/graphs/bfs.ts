@@ -10,7 +10,7 @@ export function bfs(start: string, graph: Record<string, string[]>): string[] {
     const neighbor = deque.pop_front();
     if (!visited.has(neighbor)) {
       visited.add(neighbor);
-      graph[neighbor].forEach(child => deque.push_back(child))
+      graph[neighbor].forEach((child) => deque.push_back(child));
     }
   }
   return Array.from(visited);

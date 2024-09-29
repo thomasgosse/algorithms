@@ -1695,7 +1695,7 @@ export const numbers = [
 ];
 
 /**
- * This dataset will not work for quicksort because complexity is O(n^2) (worst case scenario) 
+ * This dataset will not work for quicksort because complexity is O(n^2) (worst case scenario)
  * and maximum call stack is exceeded
  */
 export const samesNumbers = [
