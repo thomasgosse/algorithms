@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { Deque } from "./Deque";
+import { Deque } from "./deque";
 
 describe("Deque", () => {
   let deque: Deque<number>;
