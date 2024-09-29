@@ -4,7 +4,7 @@ export function bfs(start: string, graph: Record<string, string[]>): string[] {
   let visited = new Set([start]);
   if (!graph[start].length) return Array.from(visited);
 
-  let deque = new Deque(...graph[start]);
+  const deque = new Deque(...graph[start]);
 
   while (deque.length) {
     const neighbor = deque.pop_front();
@@ -42,16 +42,16 @@ export function bfs_shortest_path(start: string, target: string, graph: Record<s
   const first_children = graph[start];
   if (!first_children.length) return null;
 
-  let queue = [...first_children];
+  const deque = new Deque(...first_children);
   let child_to_parent = add_relation(start, first_children);
 
-  while (queue.length) {
-    const neighbor = queue.shift();
+  while (deque.length) {
+    const neighbor = deque.pop_front();
     if (!visited.has(neighbor)) {
       visited.add(neighbor);
 
       const children = graph[neighbor];
-      queue = queue.concat(children);
+      children.forEach((child) => deque.push_back(child));
       child_to_parent = add_relation(neighbor, children, child_to_parent);
       if (children.includes(target)) return construct_shortest_path(start, target, child_to_parent);
     }
