@@ -1,15 +1,16 @@
+import { Deque } from "../structures/deque.js";
+
 export function bfs(start: string, graph: Record<string, string[]>): string[] {
   let visited = new Set([start]);
   if (!graph[start].length) return Array.from(visited);
 
-  let queue = [...graph[start]];
+  let deque = new Deque(...graph[start]);
 
-  while (queue.length) {
-    const neighbor = queue.shift();
+  while (deque.length) {
+    const neighbor = deque.pop_front();
     if (!visited.has(neighbor)) {
       visited.add(neighbor);
-
-      queue = queue.concat(graph[neighbor]);
+      graph[neighbor].forEach(child => deque.push_back(child))
     }
   }
   return Array.from(visited);
