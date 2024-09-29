@@ -6,6 +6,7 @@
   "scripts": {
     "tsx": "tsx",
     "test": "vitest run",
+    "lint": "prettier --check .",
     "format": "prettier . --write"
   },
   "license": "ISC",
