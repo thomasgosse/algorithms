@@ -1,6 +1,8 @@
 import { Deque } from "../structures/deque.js";
 
-export function bfs(start: string, graph: Record<string, string[]>): string[] {
+export type UnweightedGraph = Record<string, string[]>;
+
+export function bfs(start: string, graph: UnweightedGraph): string[] {
   let visited = new Set([start]);
   if (!graph[start].length) return Array.from(visited);
 
@@ -37,7 +39,7 @@ function construct_shortest_path(start: string, target: string, map: Record<stri
  * (breadth-first search explores nodes level by level). Therefore, we will not encounter duplicate entries for any child node in the map,
  * which ensures that the structure remains valid and efficient for path reconstruction.
  */
-export function bfs_shortest_path(start: string, target: string, graph: Record<string, string[]>): string[] | null {
+export function bfs_shortest_path(start: string, target: string, graph: UnweightedGraph): string[] | null {
   let visited = new Set([start]);
   const first_children = graph[start];
   if (!first_children.length) return null;
