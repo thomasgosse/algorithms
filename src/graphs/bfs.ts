@@ -1,12 +1,12 @@
 import { Deque } from "../structures/deque.js";
-
-export type UnweightedGraph = Record<string, string[]>;
+import { construct_shortest_path } from "./construct-shortest-path.js";
+import { UnweightedGraph } from "./types.js";
 
 export function bfs(start: string, graph: UnweightedGraph): string[] {
   let visited = new Set([start]);
   if (!graph[start].length) return Array.from(visited);
 
-  const deque = new Deque(...graph[start]);
+  const deque = new Deque(graph[start]);
 
   while (deque.length) {
     const neighbor = deque.pop_front();
@@ -23,16 +23,6 @@ function add_relation(parent: string, children: string[], map: Record<string, st
   return map;
 }
 
-function construct_shortest_path(start: string, target: string, map: Record<string, string>): string[] {
-  let path = [target];
-  let current = target;
-  while (current !== start) {
-    current = map[current];
-    path.push(current);
-  }
-  return path.reverse();
-}
-
 /**
  * The map for storing the child-to-parent relationship is preferable because it simplifies and optimizes the reconstruction of the shortest path.
  * In BFS, once a node is visited, it is guaranteed to be reached via the shortest path due to the nature of the algorithm
@@ -44,7 +34,7 @@ export function bfs_shortest_path(start: string, target: string, graph: Unweight
   const first_children = graph[start];
   if (!first_children.length) return null;
 
-  const deque = new Deque(...first_children);
+  const deque = new Deque(first_children);
   let child_to_parent = add_relation(start, first_children);
 
   while (deque.length) {
