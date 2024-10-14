@@ -9,8 +9,8 @@ export class Deque<T> {
   back?: DequeElement<T>;
   length = 0;
 
-  constructor(...values: T[]) {
-    if (values.length) {
+  constructor(values?: T[]) {
+    if (values?.length) {
       values.forEach((value) => this.push_back(value));
     } else {
       this.back = this.front = undefined;
