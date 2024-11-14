@@ -2,9 +2,9 @@ function hash(set: Set<string>) {
   return [...set.keys()].sort().join();
 }
 
-// @todo: clean and write tests
 export function create_power_set(set: Set<string>, unique_subsets: Record<string, Set<string>> = {}): Set<Set<string>> {
   if (set.size === 0) {
+    unique_subsets[hash(set)] = set;
     return new Set([set]);
   }
 
@@ -13,11 +13,7 @@ export function create_power_set(set: Set<string>, unique_subsets: Record<string
   set.keys().forEach((element) => {
     const subset = new Set(set);
     subset.delete(element);
-    unique_subsets[hash(subset)] = set;
-
-    create_power_set(subset, unique_subsets).forEach((subset) => {
-      unique_subsets[hash(subset)] = subset;
-    });
+    create_power_set(subset, unique_subsets);
   });
 
   return new Set(Object.values(unique_subsets));
