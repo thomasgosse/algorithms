@@ -1,5 +1,7 @@
+import { create_power_set } from "../structures/power-set.js";
+
 /**
- * Glutton implementation to approximate the solution in reasonable time complexity O(m * n)
+ * Greedy implementation to approximate the solution in reasonable time complexity O(m * n)
  * where m is the number of elements in the universe and n the number of sets
  */
 export function set_cover(universe: Set<string>, sets: Record<string, Set<string>>): string[] {
@@ -26,8 +28,31 @@ export function set_cover(universe: Set<string>, sets: Record<string, Set<string
   return results;
 }
 
-// @todo: implement the power set solution to compare execution times O(2^n)
-export function set_cover_power_set(sets: Record<string, Set<string>>) {
-  // 1. build the power set
-  // 2. build this structure [ {sets_values:[],sets_keys:Set<string>} ]
+/**
+ * Brute force implementation creating a power set. The time complexity is O(2^n) which makes it exponentially
+ * longer and not suitable for large sets.
+ * Example: 14 sets took the test ~280 to run
+ */
+export function set_cover_power_set(universe: Set<string>, sets: Record<string, Set<string>>): string[] {
+  const power_set = create_power_set(new Set(Object.keys(sets)));
+
+  const coverage_combinations = Array.from(power_set, (subset) => {
+    const combined_coverage = { keys: new Set<string>(), values: new Set<string>() };
+    subset.forEach((key) => {
+      combined_coverage.keys.add(key);
+      for (const state of sets[key]) {
+        combined_coverage.values.add(state);
+      }
+    });
+    return combined_coverage;
+  });
+
+  const valid_combinations = coverage_combinations.filter((item) => universe.difference(item.values).size === 0);
+
+  if (valid_combinations.length === 0) return [];
+
+  return valid_combinations.reduce(
+    (smallest, current) => (current.keys.size < smallest.length ? [...current.keys] : smallest),
+    [...valid_combinations[0].keys],
+  );
 }
