@@ -3,12 +3,9 @@ function hash(set: Set<string>) {
 }
 
 export function create_power_set(set: Set<string>, unique_subsets: Record<string, Set<string>> = {}): Set<Set<string>> {
-  if (set.size === 0) {
-    unique_subsets[hash(set)] = set;
-    return new Set([set]);
-  }
-
   unique_subsets[hash(set)] = set;
+
+  if (set.size === 0) return new Set([set]);
 
   set.keys().forEach((element) => {
     const subset = new Set(set);
